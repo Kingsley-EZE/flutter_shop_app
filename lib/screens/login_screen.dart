@@ -6,6 +6,8 @@ import 'package:shop_app/components/primary_button.dart';
 import 'complete_profile_signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -19,8 +21,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
 
   final _auth = FirebaseAuth.instance;
+  final _fireStore = FirebaseFirestore.instance;
   String email = '';
   String password = '';
+  int userProfileCompleted = 0;
   bool showSpinner = false;
 
   void showSnackBar(String message, Color backgroundColor){
@@ -42,6 +46,26 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     return true;
+  }
+
+  void getUserData(UserCredential user) async{
+
+    final docRef = _fireStore.collection(kUsers).doc(_auth.currentUser?.uid);
+    await docRef.get().then(
+          (DocumentSnapshot doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        userProfileCompleted = data['profileCompleted'];
+        if(user.user != null && userProfileCompleted == 0){
+          Navigator.pushNamed(context, CompleteProfileScreen.id);
+        }else if(user.user != null && userProfileCompleted == 1){
+          Navigator.pushNamed(context, HomeScreen.id);
+        }
+        print('USER-PROFILE-COMPLETED: $userProfileCompleted');
+      },
+      onError: (e) {
+            print(e);
+      },
+    );
   }
 
   @override
@@ -144,9 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           try{
                             final user = await _auth.signInWithEmailAndPassword(email: email, password: password);
-                            if(user.user != null){
-                              Navigator.pushNamed(context, CompleteProfileScreen.id);
-                            }
+                            getUserData(user);
 
                             setState(() {
                               showSpinner = false;

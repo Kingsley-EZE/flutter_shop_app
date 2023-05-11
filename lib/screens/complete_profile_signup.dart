@@ -10,6 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shop_app/utilities/image_helper.dart';
+import 'home_screen.dart';
 
 final imageHelper = ImageHelper();
 
@@ -26,6 +27,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
   final _auth = FirebaseAuth.instance;
   final _fireStore = FirebaseFirestore.instance;
+  final _firebaseStorage = FirebaseStorage.instance;
   late String fullName;
   late String email;
   late String password;
@@ -73,9 +75,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   }
 
   void updateUserInfo(String fullName, String email, String password, String? userId, String userProfileImage, int phoneNumber, int profileCompleted,) async{
-      setState(() {
-        showSpinner = true;
-      });
+
      final docRef = _fireStore.collection(kUsers).doc(_auth.currentUser?.uid);
 
      final userInfo = UserModel(
@@ -88,40 +88,49 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
          profileCompleted: profileCompleted);
 
      await docRef.update(userInfo.toMap()).then((value) {
-       setState(() {
-         showSpinner = false;
-       });
-       showSnackBar('Updated Successfully', Colors.green);
+
      },
      onError: (e) {
-       setState(() {
-         showSpinner = false;
-       });
-       showSnackBar('$e', Colors.redAccent);
+
      }
      );
   }
 
   uploadImageToCloudStorage(File? file, String fullName, String email, String password, String? userId, int phoneNumber, int profileCompleted,) async{
-    if(file != null){
-      var fileName = file.path.split('/').last;
-      var firebaseStorageRef = FirebaseStorage.instance.ref().child('uploads/$fileName');
+    setState(() {
+      showSpinner = true;
+    });
+    try{
+      if(file != null){
+        var fileName = file.path.split('/').last;
+        var firebaseStorageRef = _firebaseStorage.ref().child('uploads/$fileName');
 
-      var task = firebaseStorageRef.putFile(File(file.path));
+        var task = await firebaseStorageRef.putFile(File(file.path));
 
-      var downloadUrl = await (await task).ref.getDownloadURL();
+        var downloadUrl = await task.ref.getDownloadURL();
 
-      userImageUrl =  downloadUrl.toString();
-      updateUserInfo(
-          fullName,
-          email,
-          password,
-          userId,
-          userImageUrl,
-          phoneNumber,
-          1);
-
+        userImageUrl =  downloadUrl.toString();
+        updateUserInfo(
+            fullName,
+            email,
+            password,
+            userId,
+            userImageUrl,
+            phoneNumber,
+            1);
+        setState(() {
+          showSpinner = false;
+        });
+        showSnackBar('Updated Successfully', Colors.green);
+        Navigator.pushNamed(context, HomeScreen.id);
+      }
+    }catch(e){
+      setState(() {
+        showSpinner = false;
+      });
+      showSnackBar('$e', Colors.redAccent);
     }
+
   }
 
   @override

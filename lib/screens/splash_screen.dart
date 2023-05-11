@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/utilities/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'onboarding_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'home_screen.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -15,12 +17,23 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+  final _auth = FirebaseAuth.instance;
+
   @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 5), () async{
-      Navigator.pushNamed(context, OnboardingScreen.id);
+      checkLoggedInState();
     });
+  }
+
+  void checkLoggedInState(){
+    var user =  _auth.currentUser;
+    if(user != null){
+      Navigator.pushNamed(context, HomeScreen.id);
+    }else{
+      Navigator.pushNamed(context, OnboardingScreen.id);
+    }
   }
 
   @override
