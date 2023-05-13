@@ -7,6 +7,7 @@ import 'utilities/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'screens/complete_profile_signup.dart';
 import 'screens/home_screen.dart';
+import 'screens/add_products.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.id: (context) => LoginScreen(),
         CompleteProfileScreen.id: (context) => CompleteProfileScreen(),
         HomeScreen.id: (context) => HomeScreen(),
+        AddProductsScreen.id: (context) => AddProductsScreen(),
     },);
   }
 }

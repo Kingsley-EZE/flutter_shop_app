@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shop_app/screens/login_screen.dart';
 
 
 class UserProfileScreen extends StatefulWidget {
@@ -12,11 +14,19 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+
+  final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Profile Screen', style: GoogleFonts.poppins(fontSize: 30.0, fontWeight: FontWeight.bold),),
+        child: ElevatedButton(onPressed: ()async{
+          await _auth.signOut();
+          Navigator.popAndPushNamed(context, LoginScreen.id);
+        },
+            child: Text('Logout', style: GoogleFonts.poppins(fontSize: 30.0,),)
+        ),
       ),
     );
   }

@@ -46,6 +46,8 @@ dependencies:
   firebase_storage: ^11.1.2
   flutter_svg: ^2.0.5
   google_nav_bar: ^5.0.6
+  html_character_entities: ^1.0.0+1
+  intl:
 
 dev_dependencies:
   flutter_test:

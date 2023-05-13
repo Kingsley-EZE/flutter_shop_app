@@ -30,9 +30,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void checkLoggedInState(){
     var user =  _auth.currentUser;
     if(user != null){
-      Navigator.pushNamed(context, HomeScreen.id);
+      Navigator.popAndPushNamed(context, HomeScreen.id);
     }else{
-      Navigator.pushNamed(context, OnboardingScreen.id);
+      Navigator.popAndPushNamed(context, OnboardingScreen.id);
     }
   }
 

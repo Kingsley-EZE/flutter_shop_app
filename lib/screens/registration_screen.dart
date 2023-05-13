@@ -8,6 +8,7 @@ import 'package:shop_app/components/MainInputField.dart';
 import 'package:shop_app/components/primary_button.dart';
 import 'package:shop_app/model/user.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:shop_app/components/navigate_back_arrow.dart';
 
 
 class RegistrationScreen extends StatefulWidget {
@@ -71,22 +72,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                            color: kBackButtonBgColor,
-                            shape: BoxShape.circle
-                        ),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          child: Icon(Icons.arrow_back, color: Colors.black,),
-                        ),
-                      ),
-                    ),
+                    BackArrowWidget(),
 
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20.0),
