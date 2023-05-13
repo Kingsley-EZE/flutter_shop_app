@@ -192,7 +192,7 @@ class _AddProductsScreen extends State<AddProductsScreen> {
                   OutlinedInputField(
                     labelText: 'Product price',
                     onChanged: (String value) {
-                      productPrice = value;
+                      productPrice = 'NGN$value';
                     },
                     keyboard: TextInputType.number,
                     maxLines: 1,

@@ -9,4 +9,13 @@ class FireStore {
   final _auth = FirebaseAuth.instance;
   final _fireStore = FirebaseFirestore.instance;
   final _firebaseStorage = FirebaseStorage.instance;
+
+  String getCurrentUserId() {
+    final currentUser = _auth.currentUser;
+    var currentUserId = '';
+    if(currentUser != null){
+      currentUserId = currentUser.uid;
+    }
+    return currentUserId;
+  }
 }

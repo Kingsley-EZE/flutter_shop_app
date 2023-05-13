@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'screens/complete_profile_signup.dart';
 import 'screens/home_screen.dart';
 import 'screens/add_products.dart';
+import 'screens/products/product_details_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
