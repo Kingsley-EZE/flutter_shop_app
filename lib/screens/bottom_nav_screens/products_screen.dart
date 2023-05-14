@@ -42,6 +42,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            _isLoading ?
+            Expanded(
+                child: ListView.separated(itemBuilder: (context, index) => NewSkeletonCard(),
+                    separatorBuilder: (context, index) => SizedBox(height: 5,),
+                    itemCount: 6)
+            )
+                :
             UserProductStream(),
           ],
         ),
