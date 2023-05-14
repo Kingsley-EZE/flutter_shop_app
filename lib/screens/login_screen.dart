@@ -183,6 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       horizontalValue: 0,
                       verticalValue: 40.0,
+                      isVisible: true,
                     ),
 
                     Row(

@@ -226,7 +226,8 @@ class _AddProductsScreen extends State<AddProductsScreen> {
                           }
                       },
                       horizontalValue: 16.0,
-                      verticalValue: 30.0),
+                      verticalValue: 30.0,
+                    isVisible: true,),
 
                 ],
               ),

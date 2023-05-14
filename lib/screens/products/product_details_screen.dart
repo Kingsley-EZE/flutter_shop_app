@@ -32,6 +32,15 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
+  FireStore mFirestore = FireStore();
+
+  bool checkIfOwner(){
+    if(widget.productOwnerId == mFirestore.getCurrentUserId()){
+      return false;
+    }else{
+      return true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +164,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     textColor: Colors.white,
                     onPressed: (){},
                     horizontalValue: 0.0,
-                    verticalValue: 12.0
+                    verticalValue: 12.0,
+                    isVisible: checkIfOwner(),
                 ),
               ),
 

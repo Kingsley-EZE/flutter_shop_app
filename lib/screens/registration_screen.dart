@@ -185,6 +185,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       },
                       horizontalValue: 0,
                       verticalValue: 40.0,
+                      isVisible: true,
                     ),
 
                     Row(

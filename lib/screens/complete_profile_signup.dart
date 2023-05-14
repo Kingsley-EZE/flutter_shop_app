@@ -303,6 +303,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                         },
                         horizontalValue: 0,
                         verticalValue: 40.0,
+                        isVisible: true,
                       ),
 
                     ],

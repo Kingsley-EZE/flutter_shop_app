@@ -42,13 +42,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _isLoading ?
-            Expanded(
-                child: ListView.separated(itemBuilder: (context, index) => NewSkeletonCard(),
-                    separatorBuilder: (context, index) => SizedBox(height: 5,),
-                    itemCount: 6)
-            )
-            :
             UserProductStream(),
           ],
         ),
@@ -110,6 +103,19 @@ class UserProductStream extends StatelessWidget {
           }*/
 
           final productItems = snapshot.data!.docs;
+          if (productItems.isEmpty) {
+            return Center(
+              child: Text(
+                'You have no products yet',
+                style: GoogleFonts.lato(
+                  fontSize: 20.0,
+                  color: Colors.black54,
+                ),
+              ),
+            );
+          }
+
+
           List<UserProductItem> userProductItem = [];
 
           for(var productItem in productItems){
@@ -134,7 +140,7 @@ class UserProductStream extends StatelessWidget {
             userProductItem.add(product);
           }
 
-          return Flexible(
+          return Expanded(
               child: ListView(
                 children: userProductItem,
               ));

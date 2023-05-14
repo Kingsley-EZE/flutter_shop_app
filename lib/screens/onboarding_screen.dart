@@ -47,6 +47,7 @@ class OnboardingScreen extends StatelessWidget {
                 },
               horizontalValue: 16.0,
               verticalValue: 8.0,
+              isVisible: true,
             ),
             PrimaryMainButton(
               buttonColor: Colors.white,
@@ -57,6 +58,7 @@ class OnboardingScreen extends StatelessWidget {
               },
               horizontalValue: 16.0,
               verticalValue: 8.0,
+              isVisible: true,
             ),
           ],
         ),
