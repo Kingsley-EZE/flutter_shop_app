@@ -7,4 +7,7 @@ const kHintTextColor = Colors.grey;
 const kRedTextColor = Color(0xFFEA4335);
 const kUsers = 'USERS';
 const kProducts = 'PRODUCTS';
+const kCarts = 'CARTS';
 const kUserId = 'userId';
+const kProductId = 'productId';
+const kDefaultQuantity = '1';
