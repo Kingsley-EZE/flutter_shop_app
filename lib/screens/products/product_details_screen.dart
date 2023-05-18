@@ -6,6 +6,7 @@ import 'package:shop_app/model/product.dart';
 import 'package:shop_app/utilities/constants.dart';
 import 'package:shop_app/components/primary_button.dart';
 import 'package:shop_app/firestore_class.dart';
+import 'package:shop_app/screens/cart_list_screen.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -269,7 +270,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         buttonText: 'Go to Cart',
                         textColor: Colors.white,
                         onPressed: (){
-
+                          Navigator.pushNamed(context, CartListScreen.id);
                         },
                         horizontalValue: 0.0,
                         verticalValue: 12.0,

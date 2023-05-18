@@ -69,8 +69,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
 class UserProductStream extends StatelessWidget {
   const UserProductStream({Key? key}) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -205,7 +203,7 @@ class UserProductItem extends StatelessWidget {
                     ),
                     image: DecorationImage(
                       image: NetworkImage(productImageUrl!),
-                      fit: BoxFit.cover
+                      fit: BoxFit.contain
                     )
                   ),
                 ),

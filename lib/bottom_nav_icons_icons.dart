@@ -12,6 +12,10 @@
 ///       - asset: fonts/BottomNavIcons.ttf
 ///
 /// 
+/// * Typicons, (c) Stephen Hutchings 2012
+///         Author:    Stephen Hutchings
+///         License:   SIL (http://scripts.sil.org/OFL)
+///         Homepage:  http://typicons.com/
 ///
 import 'package:flutter/widgets.dart';
 
@@ -25,6 +29,8 @@ class BottomNavIcons {
   static const IconData home = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData product = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData user = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData minus = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData sold = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData order = IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData plus_line_icon = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
