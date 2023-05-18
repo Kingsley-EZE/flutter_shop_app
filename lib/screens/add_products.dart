@@ -181,6 +181,7 @@ class _AddProductsScreen extends State<AddProductsScreen> {
                   ),
 
                   OutlinedInputField(
+                    controller: null,
                     labelText: 'Product name',
                     onChanged: (String value) {
                       productName = value;
@@ -190,6 +191,7 @@ class _AddProductsScreen extends State<AddProductsScreen> {
                   ),
 
                   OutlinedInputField(
+                    controller: null,
                     labelText: 'Product price',
                     onChanged: (String value) {
                       productPrice = 'NGN$value';
@@ -199,6 +201,7 @@ class _AddProductsScreen extends State<AddProductsScreen> {
                   ),
 
                   OutlinedInputField(
+                    controller: null,
                     labelText: 'Product description',
                     onChanged: (String value) {
                       productDescription = value;
@@ -208,6 +211,7 @@ class _AddProductsScreen extends State<AddProductsScreen> {
                   ),
 
                   OutlinedInputField(
+                    controller: null,
                     labelText: 'Product quantity',
                     onChanged: (String value) {
                       productQuantity = value;

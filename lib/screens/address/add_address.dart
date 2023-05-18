@@ -30,6 +30,7 @@ class _AddAddressState extends State<AddAddress> {
   String additionalNote = '';
   bool showSpinner = false;
 
+
   bool validateUserInput(String name, String phoneNumber, String address, String city){
     if(name == ''){
       showSnackBar('Name cannot be empty', Colors.redAccent);
@@ -75,6 +76,7 @@ class _AddAddressState extends State<AddAddress> {
             children: [
               SizedBox(height: 10.0,),
               OutlinedInputField(
+                  controller: null,
                   labelText: 'Name',
                   onChanged: (String value){
                     name = value;
@@ -84,6 +86,7 @@ class _AddAddressState extends State<AddAddress> {
               ),
 
               OutlinedInputField(
+                controller: null,
                 labelText: 'Phone number',
                 onChanged: (String value){
                     phoneNumber = value;
@@ -93,6 +96,7 @@ class _AddAddressState extends State<AddAddress> {
               ),
 
               OutlinedInputField(
+                controller: null,
                 labelText: 'Address',
                 onChanged: (String value){
                     address = value;
@@ -102,6 +106,7 @@ class _AddAddressState extends State<AddAddress> {
               ),
 
               OutlinedInputField(
+                controller: null,
                 labelText: 'City',
                 onChanged: (String value){
                     city = value;
@@ -111,6 +116,7 @@ class _AddAddressState extends State<AddAddress> {
               ),
 
               OutlinedInputField(
+                controller: null,
                 labelText: 'Additional note',
                 onChanged: (String value){
                     additionalNote = value;
@@ -135,7 +141,7 @@ class _AddAddressState extends State<AddAddress> {
                           showSpinner = false;
                         });
                         showSnackBar('Added Successfully', Colors.green);
-                        //Navigator.pop(context);
+                        Navigator.pop(context);
                       }catch(e){
                         print(e);
                         setState(() {
