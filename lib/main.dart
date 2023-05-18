@@ -9,6 +9,7 @@ import 'screens/complete_profile_signup.dart';
 import 'screens/home_screen.dart';
 import 'screens/add_products.dart';
 import 'screens/products/product_details_screen.dart';
+import 'screens/cart_list_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData().copyWith(
         inputDecorationTheme: InputDecorationTheme(
           floatingLabelStyle: TextStyle(color: kPrimaryBrandColor)
@@ -37,6 +39,7 @@ class MyApp extends StatelessWidget {
         CompleteProfileScreen.id: (context) => CompleteProfileScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         AddProductsScreen.id: (context) => AddProductsScreen(),
+        CartListScreen.id: (context) => CartListScreen(),
     },);
   }
 }
