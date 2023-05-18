@@ -5,6 +5,7 @@ import 'package:shop_app/model/cartItem.dart';
 import 'package:shop_app/utilities/constants.dart';
 import 'package:shop_app/utilities/dotted_divider.dart';
 import 'package:shop_app/bottom_nav_icons_icons.dart';
+import 'package:shop_app/screens/address/address_list_screen.dart';
 import '../firestore_class.dart';
 
 final _fireStore = FirebaseFirestore.instance;
@@ -40,80 +41,6 @@ class _CartListScreenState extends State<CartListScreen> {
   }
 }
 
-/*
-class CartListStream extends StatelessWidget {
-  const CartListStream({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: _fireStore.collection(kCarts).where(kUserId, isEqualTo: mFireStore.getCurrentUserId()).snapshots(),
-        builder: (BuildContext context, snapshot){
-
-          if(snapshot.hasError){
-            return Center(
-              child: Text(
-                'Something went wrong',
-                style: GoogleFonts.lato(
-                    fontSize: 20.0,
-                    color: Colors.black54),
-              ),
-            );
-          }
-
-          if(snapshot.connectionState == ConnectionState.waiting){
-            return Center(child: Text(
-              'Loading',
-              style: GoogleFonts.lato(
-                  fontSize: 20.0,
-                  color: Colors.black54),
-            ),
-            );
-          }
-
-          final cartItems = snapshot.data!.docs;
-
-          if (cartItems.isEmpty) {
-            return Center(
-              child: Text(
-                'Nothing in cart yet',
-                style: GoogleFonts.lato(
-                  fontSize: 20.0,
-                  color: Colors.black54,
-                ),
-              ),
-            );
-          }
-
-          List<CartItemWidget> cartItemList = [];
-          for(var cartItem in cartItems){
-            final productImageUrl = cartItem.get('productImageUrl');
-            final productName = cartItem.get('productName');
-            final productPrice = cartItem.get('productPrice');
-            final productCartQuantity = cartItem.get('productCartQuantity');
-            final productStockQuantity = cartItem.get('productStockQuantity');
-            final cartId = cartItem.id;
-
-            final cart = CartItemWidget(
-              productImageUrl: productImageUrl,
-              productName: productName,
-              productPrice: productPrice,
-              updateCartItems: true,
-              productCartQuantity: productCartQuantity,
-              productStockQuantity: productStockQuantity,
-              cartId: cartId,
-            );
-
-            cartItemList.add(cart);
-          }
-
-          return Expanded(child: ListView(children: cartItemList,));
-
-        }
-    );
-  }
-}
-*/
 
 class CartListStream extends StatefulWidget {
   const CartListStream({Key? key}) : super(key: key);
@@ -294,7 +221,7 @@ class _CartListStreamState extends State<CartListStream> {
 
                     GestureDetector(
                       onTap: buttonEnabled ? (){
-
+                        Navigator.pushNamed(context, AddressListScreen.id);
                       } : (){
                         showSnackBar('Minimum of one item to checkout', Colors.redAccent);
                       },
