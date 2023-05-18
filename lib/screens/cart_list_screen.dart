@@ -5,6 +5,7 @@ import 'package:shop_app/model/cartItem.dart';
 import 'package:shop_app/utilities/constants.dart';
 import 'package:shop_app/utilities/dotted_divider.dart';
 import 'package:shop_app/bottom_nav_icons_icons.dart';
+import 'package:shop_app/screens/address/address_list_screen.dart';
 import '../firestore_class.dart';
 
 final _fireStore = FirebaseFirestore.instance;
@@ -40,80 +41,6 @@ class _CartListScreenState extends State<CartListScreen> {
   }
 }
 
-/*
-class CartListStream extends StatelessWidget {
-  const CartListStream({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: _fireStore.collection(kCarts).where(kUserId, isEqualTo: mFireStore.getCurrentUserId()).snapshots(),
-        builder: (BuildContext context, snapshot){
-
-          if(snapshot.hasError){
-            return Center(
-              child: Text(
-                'Something went wrong',
-                style: GoogleFonts.lato(
-                    fontSize: 20.0,
-                    color: Colors.black54),
-              ),
-            );
-          }
-
-          if(snapshot.connectionState == ConnectionState.waiting){
-            return Center(child: Text(
-              'Loading',
-              style: GoogleFonts.lato(
-                  fontSize: 20.0,
-                  color: Colors.black54),
-            ),
-            );
-          }
-
-          final cartItems = snapshot.data!.docs;
-
-          if (cartItems.isEmpty) {
-            return Center(
-              child: Text(
-                'Nothing in cart yet',
-                style: GoogleFonts.lato(
-                  fontSize: 20.0,
-                  color: Colors.black54,
-                ),
-              ),
-            );
-          }
-
-          List<CartItemWidget> cartItemList = [];
-          for(var cartItem in cartItems){
-            final productImageUrl = cartItem.get('productImageUrl');
-            final productName = cartItem.get('productName');
-            final productPrice = cartItem.get('productPrice');
-            final productCartQuantity = cartItem.get('productCartQuantity');
-            final productStockQuantity = cartItem.get('productStockQuantity');
-            final cartId = cartItem.id;
-
-            final cart = CartItemWidget(
-              productImageUrl: productImageUrl,
-              productName: productName,
-              productPrice: productPrice,
-              updateCartItems: true,
-              productCartQuantity: productCartQuantity,
-              productStockQuantity: productStockQuantity,
-              cartId: cartId,
-            );
-
-            cartItemList.add(cart);
-          }
-
-          return Expanded(child: ListView(children: cartItemList,));
-
-        }
-    );
-  }
-}
-*/
 
 class CartListStream extends StatefulWidget {
   const CartListStream({Key? key}) : super(key: key);
@@ -294,7 +221,7 @@ class _CartListStreamState extends State<CartListStream> {
 
                     GestureDetector(
                       onTap: buttonEnabled ? (){
-
+                        Navigator.pushNamed(context, AddressListScreen.id);
                       } : (){
                         showSnackBar('Minimum of one item to checkout', Colors.redAccent);
                       },
@@ -509,105 +436,3 @@ class _CartItemWidgetState extends State<CartItemWidget> {
     );
   }
 }
-
-
-/*
-
-class CartItemWidget extends StatelessWidget {
-   CartItemWidget({
-     required this.productImageUrl,
-     required this.productName,
-     required this.productPrice,
-     required this.updateCartItems,
-     required this.productCartQuantity,
-     required this.productStockQuantity,
-     required this.cartId,
-  });
-
-  String productImageUrl;
-  String productName;
-  String productPrice;
-  bool updateCartItems;
-   String productCartQuantity;
-   String productStockQuantity;
-   String cartId;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 16.0),
-      child: Container(
-        padding: EdgeInsets.all(10.0),
-        width: double.infinity,
-        height: 145.0,
-        decoration: BoxDecoration(
-          color: Colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Row(
-          children: [
-
-            Container(
-              width: 130.0,
-              padding: EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                  borderRadius: BorderRadius.circular(10.0),
-                  image: DecorationImage(
-                      image: NetworkImage(productImageUrl),
-                      fit: BoxFit.contain
-                  )
-              ),
-            ),
-
-            SizedBox(width: 10.0,),
-
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                    productName,
-                  style: GoogleFonts.lato(fontWeight: FontWeight.w700, color: Colors.black87, fontSize: 18.0),
-                ),
-
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(
-                      color: Colors.grey.shade200,
-                      width: 2.0,
-                    ),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(BottomNavIcons.minus, color: Colors.black87,),
-                      SizedBox(width: 30.0,),
-                      Text('2', style: GoogleFonts.lato(fontWeight: FontWeight.w700, color: Colors.black87, fontSize: 16.0),),
-                      SizedBox(width: 30.0,),
-                      Icon(Icons.add, color: Colors.black87,),
-                    ],
-                  ),
-                ),
-
-                Text(
-                    productPrice,
-                  style: GoogleFonts.lato(fontWeight: FontWeight.w800, color: Colors.black87, fontSize: 16.0),
-                ),
-              ],
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(left: 45.0, right: 10.0, top: 10.0, bottom: 10.0),
-              child: Icon(Icons.delete_outline, color: kPrimaryBrandColor,),
-            ),
-
-          ],
-        ),
-      ),
-    );
-  }
-}
-*/

@@ -8,12 +8,14 @@ class OutlinedInputField extends StatelessWidget {
     required this.onChanged,
     required this.keyboard,
     required this.maxLines,
+    required this.controller
   });
 
   final String labelText;
   final ValueChanged<String> onChanged;
   final TextInputType keyboard;
   final int maxLines;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {

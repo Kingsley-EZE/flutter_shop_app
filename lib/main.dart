@@ -8,7 +8,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'screens/complete_profile_signup.dart';
 import 'screens/home_screen.dart';
 import 'screens/add_products.dart';
-import 'screens/products/product_details_screen.dart';
+import 'screens/address/address_list_screen.dart';
+import 'screens/address/add_address.dart';
 import 'screens/cart_list_screen.dart';
 
 void main() async{
@@ -40,6 +41,8 @@ class MyApp extends StatelessWidget {
         HomeScreen.id: (context) => HomeScreen(),
         AddProductsScreen.id: (context) => AddProductsScreen(),
         CartListScreen.id: (context) => CartListScreen(),
+        AddressListScreen.id: (context) => AddressListScreen(),
+        AddAddress.id: (context) => AddAddress(),
     },);
   }
 }
