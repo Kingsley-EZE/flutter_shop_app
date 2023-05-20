@@ -1,22 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shop_app/model/address.dart';
+import 'package:shop_app/model/cartItem.dart';
+import 'package:shop_app/model/orders.dart';
+import 'package:shop_app/screens/home_screen.dart';
 import '../../firestore_class.dart';
 import '../../utilities/constants.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:shop_app/screens/address/address_list_screen.dart';
+import 'package:shop_app/screens/address/add_address.dart';
+import 'package:shop_app/screens/address/edit_address.dart';
+import 'package:shop_app/screens/cart_list_screen.dart';
+import 'package:shop_app/screens/products/product_details_screen.dart';
+import 'package:shop_app/screens/checkout/checkout_screen.dart';
 
 final _fireStore = FirebaseFirestore.instance;
 FireStore mFireStore = FireStore();
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({
-    required this.name,
-    required this.phoneNumber,
-    required this.address,
-    required this.city,
-    required this.additionalNote,
-    required this.userId,
+    this.name = '',
+    this.phoneNumber = '',
+    this.address = '',
+    this.city = '',
+    this.additionalNote = '',
+    this.userId = '',
     Key? key
   }) : super(key: key);
+
+  static const String id = 'checkout_screen';
 
   final String name;
   final String phoneNumber;
@@ -49,13 +62,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         address: widget.address,
         city: widget.city,
         additionalNote: widget.additionalNote,
+        userId: widget.userId,
       ),
     );
   }
 }
 
-class CartListStream extends StatelessWidget {
-   CartListStream({
+class CartListStream extends StatefulWidget {
+  CartListStream({
     this.deliveryFee = 0.0,
     this.totalAmt = 0.0,
     this.name = '',
@@ -63,6 +77,7 @@ class CartListStream extends StatelessWidget {
     this.address = '',
     this.city = '',
     this.additionalNote = '',
+    this.userId = '',
     Key? key
   }) : super(key: key);
 
@@ -73,6 +88,21 @@ class CartListStream extends StatelessWidget {
   String address;
   String city;
   String additionalNote;
+  String userId;
+
+  @override
+  State<CartListStream> createState() => _CartListStreamState();
+}
+
+class _CartListStreamState extends State<CartListStream> {
+
+  void showSnackBar(String message, Color backgroundColor){
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: backgroundColor,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,13 +146,19 @@ class CartListStream extends StatelessWidget {
           }
 
           double subTotal = 0.0;
+          //int remainingStockQuantity = 0;
+          String productID = '';
           List<CartItemWidget> cartItemList = [];
+          List<CartItem> mCartList = [];
           for(var cartItem in cartItems){
             final productImageUrl = cartItem.get('productImageUrl');
             final productName = cartItem.get('productName');
             final productPrice = cartItem.get('productPrice');
             final productCartQuantity = cartItem.get('productCartQuantity');
             final productStockQuantity = cartItem.get('productStockQuantity');
+            final productOwnerId = cartItem.get('productOwnerId');
+            productID = cartItem.get('productId');
+            final cartId = cartItem.id;
 
             final cart = CartItemWidget(
               productImageUrl: productImageUrl,
@@ -130,6 +166,364 @@ class CartListStream extends StatelessWidget {
               productPrice: productPrice,
               productCartQuantity: productCartQuantity,
             );
+
+            final mCart = CartItem(
+                userId: mFireStore.getCurrentUserId(),
+                productOwnerId: productOwnerId,
+                productId: cartId,
+                productName: productName,
+                productPrice: productPrice,
+                productImageUrl: productImageUrl,
+                productCartQuantity: productCartQuantity,
+                productStockQuantity: productStockQuantity
+            );
+            mCartList.add(mCart);
+
+            cartItemList.add(cart);
+
+            if(int.parse(productCartQuantity) > 0){
+              widget.deliveryFee = 10.0;
+            }else{
+              widget.deliveryFee = 0.0;
+              widget.totalAmt = 0.0;
+            }
+
+            if(int.parse(productStockQuantity) > 0){
+              final price = double.parse(productPrice);
+              final cartQuantity = double.parse(productCartQuantity);
+              subTotal += (price * cartQuantity);
+            }
+
+            //remainingStockQuantity = int.parse(productStockQuantity) - int.parse(productCartQuantity);
+
+          }
+
+          if(subTotal > 0){
+            widget.totalAmt = subTotal + widget.deliveryFee;
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(child: ListView(children: cartItemList,)),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                child: Text(
+                  'Selected Address',
+                  style: GoogleFonts.lato(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w700,
+                      color: kPrimaryBrandColor
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 7.0),
+                child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7.0),
+                      color: Colors.grey.shade200,
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.name,
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black,
+                              fontSize: 20.0
+                          ),
+                        ),
+                        const SizedBox(height: 10.0,),
+                        Text(
+                          widget.address,
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black45,
+                              fontSize: 16.0
+                          ),
+                        ),
+                        const SizedBox(height: 10.0,),
+                        Text(
+                          widget.phoneNumber,
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black45,
+                              fontSize: 16.0
+                          ),
+                        ),
+
+                        const SizedBox(height: 10.0,),
+                        Text(
+                          widget.additionalNote,
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black87,
+                              fontSize: 18.0
+                          ),
+                        ),
+
+                      ],
+                    )
+                ),
+              ),
+
+              Container(
+                width: double.infinity,
+
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+                child: Column(
+                  children: [
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Delivery Fee:',
+                          style: GoogleFonts.lato(
+                              fontSize: 16.0,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w800
+                          ),
+                        ),
+                        Text(
+                          '\$${widget.deliveryFee}',
+                          style: GoogleFonts.lato(
+                              fontSize: 18.0,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w800
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(height: 10.0,),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Total:',
+                          style: GoogleFonts.lato(
+                              fontSize: 22.0,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w800
+                          ),
+                        ),
+                        Text(
+                          '${widget.totalAmt}',
+                          style: GoogleFonts.lato(
+                              fontSize: 20.0,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w800
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(height: 30.0,),
+
+                    GestureDetector(
+                      onTap: ()async{
+
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: const [
+                                  CircularProgressIndicator(),
+                                  SizedBox(height: 16.0),
+                                  Text(
+                                    'Placing Order...',
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+
+                        final selectedAddress = Address(
+                            name: widget.name,
+                            phoneNumber: widget.phoneNumber,
+                            address: widget.address,
+                            city: widget.city,
+                            additionalNote: widget.additionalNote
+                        );
+
+                        final order = Orders(
+                          userId: widget.userId,
+                          cartItem: mCartList,
+                          address: selectedAddress,
+                          title: 'Order${widget.userId}',
+                          imageUrl: cartItemList[0].productImageUrl,
+                          totalAmount: widget.totalAmt.toString(),
+                          shippingCharge: widget.deliveryFee.toString(),
+                          orderId: '',
+                          orderStatus: 'Pending',
+                        );
+
+                        try{
+
+                          await _fireStore.collection(kOrders).doc().set(order.toMap(), SetOptions(merge: true));
+
+                          //final stock = {'productQuantity' : remainingStockQuantity.toString()};
+                          //await _fireStore.collection(kProducts).doc(productID).update(stock);
+                          showSnackBar('Order placed successfully', Colors.green);
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomeScreen()),
+                                  (route) => false);
+                        }catch(e){
+                          print(e);
+                        }
+
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 48.0,
+                        decoration: BoxDecoration(
+                            color: kPrimaryBrandColor,
+                            borderRadius: BorderRadius.circular(10.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 5,
+                                offset: Offset(0, 2),
+                              )
+                            ]
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Place Order',
+                            style: GoogleFonts.lato(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+
+                  ],
+                ),
+              )
+            ],
+          );
+
+        }
+    );
+  }
+}
+
+/*
+class CartListStream extends StatelessWidget {
+   CartListStream({
+    this.deliveryFee = 0.0,
+    this.totalAmt = 0.0,
+    this.name = '',
+    this.phoneNumber = '',
+    this.address = '',
+    this.city = '',
+    this.additionalNote = '',
+    this.userId = '',
+    Key? key
+  }) : super(key: key);
+
+  double deliveryFee;
+  double totalAmt;
+  String name;
+  String phoneNumber;
+  String address;
+  String city;
+  String additionalNote;
+  String userId;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+        stream: _fireStore.collection(kCarts).where(kUserId, isEqualTo: mFireStore.getCurrentUserId()).snapshots(),
+        builder: (BuildContext context, snapshot){
+
+          if(snapshot.hasError){
+            return Center(
+              child: Text(
+                'Something went wrong',
+                style: GoogleFonts.lato(
+                    fontSize: 20.0,
+                    color: Colors.black54),
+              ),
+            );
+          }
+
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return Center(child: Text(
+              'Loading',
+              style: GoogleFonts.lato(
+                  fontSize: 20.0,
+                  color: Colors.black54),
+            ),
+            );
+          }
+
+          final cartItems = snapshot.data!.docs;
+
+          if (cartItems.isEmpty) {
+            return Center(
+              child: Text(
+                'Nothing in cart yet',
+                style: GoogleFonts.lato(
+                  fontSize: 20.0,
+                  color: Colors.black54,
+                ),
+              ),
+            );
+          }
+
+          double subTotal = 0.0;
+          //int remainingStockQuantity = 0;
+          String productID = '';
+          List<CartItemWidget> cartItemList = [];
+          List<CartItem> mCartList = [];
+          for(var cartItem in cartItems){
+            final productImageUrl = cartItem.get('productImageUrl');
+            final productName = cartItem.get('productName');
+            final productPrice = cartItem.get('productPrice');
+            final productCartQuantity = cartItem.get('productCartQuantity');
+            final productStockQuantity = cartItem.get('productStockQuantity');
+            final productOwnerId = cartItem.get('productOwnerId');
+            productID = cartItem.get('productId');
+            final cartId = cartItem.id;
+
+            final cart = CartItemWidget(
+              productImageUrl: productImageUrl,
+              productName: productName,
+              productPrice: productPrice,
+              productCartQuantity: productCartQuantity,
+            );
+
+            final mCart = CartItem(
+              userId: mFireStore.getCurrentUserId(),
+              productOwnerId: productOwnerId,
+              productId: cartId,
+              productName: productName,
+              productPrice: productPrice,
+              productImageUrl: productImageUrl,
+              productCartQuantity: productCartQuantity,
+              productStockQuantity: productStockQuantity
+            );
+            mCartList.add(mCart);
 
             cartItemList.add(cart);
 
@@ -145,6 +539,8 @@ class CartListStream extends StatelessWidget {
               final cartQuantity = double.parse(productCartQuantity);
               subTotal += (price * cartQuantity);
             }
+
+            //remainingStockQuantity = int.parse(productStockQuantity) - int.parse(productCartQuantity);
 
           }
 
@@ -278,7 +674,41 @@ class CartListStream extends StatelessWidget {
                     SizedBox(height: 30.0,),
 
                     GestureDetector(
-                      onTap: (){
+                      onTap: ()async{
+
+                        final selectedAddress = Address(
+                          name: name,
+                          phoneNumber: phoneNumber,
+                          address: address,
+                          city: city,
+                          additionalNote: additionalNote
+                        );
+
+                        final order = Orders(
+                            userId: userId,
+                            cartItem: mCartList,
+                            address: selectedAddress,
+                            title: 'Order$userId',
+                            imageUrl: cartItemList[0].productImageUrl,
+                            totalAmount: totalAmt.toString(),
+                            shippingCharge: deliveryFee.toString(),
+                            orderId: '',
+                            orderStatus: 'Pending',
+                            );
+
+                        try{
+
+                          await _fireStore.collection(kOrders).doc().set(order.toMap(), SetOptions(merge: true));
+
+                          //final stock = {'productQuantity' : remainingStockQuantity.toString()};
+                          //await _fireStore.collection(kProducts).doc(productID).update(stock);
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomeScreen()),
+                              (route) => false);
+                        }catch(e){
+                            print(e);
+                        }
 
                       },
                       child: Container(
@@ -318,7 +748,7 @@ class CartListStream extends StatelessWidget {
     );
   }
 }
-
+*/
 
 class CartItemWidget extends StatelessWidget {
   const CartItemWidget({

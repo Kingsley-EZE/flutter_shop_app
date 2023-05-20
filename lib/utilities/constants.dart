@@ -11,4 +11,5 @@ const kCarts = 'CARTS';
 const kUserId = 'userId';
 const kProductId = 'productId';
 const kAddresses = 'ADDRESSES';
+const kOrders = 'ORDERS';
 const kDefaultQuantity = '1';

@@ -10,7 +10,10 @@ import 'screens/home_screen.dart';
 import 'screens/add_products.dart';
 import 'screens/address/address_list_screen.dart';
 import 'screens/address/add_address.dart';
+import 'screens/address/edit_address.dart';
 import 'screens/cart_list_screen.dart';
+import 'screens/products/product_details_screen.dart';
+import 'screens/checkout/checkout_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,9 +43,11 @@ class MyApp extends StatelessWidget {
         CompleteProfileScreen.id: (context) => CompleteProfileScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         AddProductsScreen.id: (context) => AddProductsScreen(),
+        ProductDetailsScreen.id: (context) => ProductDetailsScreen(),
         CartListScreen.id: (context) => CartListScreen(),
         AddressListScreen.id: (context) => AddressListScreen(),
         AddAddress.id: (context) => AddAddress(),
+        CheckoutScreen.id: (context) => CheckoutScreen(),
     },);
   }
 }

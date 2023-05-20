@@ -11,13 +11,13 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   ProductDetailsScreen({
-    required this.productName,
-    required this.productPrice,
-    required this.productImageUrl,
-    required this.productId,
-    required this.productOwnerId,
-    required this.productDescription,
-    required this.productQuantity
+    this.productName = '',
+    this.productPrice = '',
+    this.productImageUrl = '',
+    this.productId = '',
+    this.productOwnerId = '',
+    this.productDescription = '',
+    this.productQuantity = '',
 });
 
   static const String id = 'product_details_screen';
