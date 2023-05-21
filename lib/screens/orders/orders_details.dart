@@ -10,10 +10,11 @@ final _fireStore = FirebaseFirestore.instance;
 FireStore mFireStore = FireStore();
 
 class OrderDetailsScreen extends StatefulWidget {
-   OrderDetailsScreen({required this.docID, required this.userId, Key? key}) : super(key: key);
+   OrderDetailsScreen({required this.docID, required this.userId, required this.orderStatus, Key? key}) : super(key: key);
 
   String docID;
   String userId;
+  String orderStatus;
 
   @override
   State<OrderDetailsScreen> createState() => _OrderDetailsScreenState();
@@ -34,17 +35,18 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         backgroundColor: kPrimaryBrandColor,
       ),
       body: SafeArea(
-        child: OrderDetailsStream(docID: widget.docID, userId: widget.userId,),
+        child: OrderDetailsStream(docID: widget.docID, userId: widget.userId, orderStatus: widget.orderStatus,),
       ),
     );
   }
 }
 
 class OrderDetailsStream extends StatefulWidget {
-   OrderDetailsStream({required this.docID, required this.userId});
+   OrderDetailsStream({required this.docID, required this.userId, required this.orderStatus});
 
    String docID;
    String userId;
+   String orderStatus;
 
   @override
   State<OrderDetailsStream> createState() => _OrderDetailsStreamState();
@@ -59,7 +61,12 @@ class _OrderDetailsStreamState extends State<OrderDetailsStream> {
       setState(() {
         btnConfirmOrder = false;
       });
-    }else{
+    }else if(widget.orderStatus == 'Confirmed'){
+      setState(() {
+        btnConfirmOrder = false;
+      });
+    }
+    else{
       setState(() {
         btnConfirmOrder = true;
       });
@@ -111,6 +118,7 @@ class _OrderDetailsStreamState extends State<OrderDetailsStream> {
           final orderStatus = documentData['orderStatus'];
           final shippingCharge = documentData['shippingCharge'];
           final totalAmount = documentData['totalAmount'];
+          final docID = documentData.id;
 
           final cartList = List.from(documentData['cartItem']);
           List<OrderItemWidget> orderItemWidget = [];
@@ -184,7 +192,10 @@ class _OrderDetailsStreamState extends State<OrderDetailsStream> {
                       ),
                       child: Text(
                         orderStatus,
-                        style: GoogleFonts.lato(fontWeight: FontWeight.w500, color: Colors.black87, fontSize: 18.0),
+                        style: GoogleFonts.lato(
+                            fontWeight: FontWeight.w500,
+                            color: orderStatus == 'Pending' ? Colors.black87 : Colors.white,
+                            fontSize: 18.0),
                       ),
                     ),
                   ],
@@ -314,9 +325,40 @@ class _OrderDetailsStreamState extends State<OrderDetailsStream> {
                     child: GestureDetector(
                       onTap: ()async{
 
-                        try{
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: const [
+                                  CircularProgressIndicator(),
+                                  SizedBox(height: 16.0),
+                                  Text(
+                                    'Confirming...',
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
 
+                        final orderStatusMap = <String, dynamic>{};
+                        orderStatusMap['orderStatus'] = 'Confirmed';
+
+                        try{
+                          await _fireStore.collection(kOrders).doc(docID).update(orderStatusMap);
+                          setState(() {
+                            btnConfirmOrder = false;
+                          });
+                          Navigator.pop(context);
                         }catch(e){
+                          Navigator.pop(context);
                           print(e);
                         }
 

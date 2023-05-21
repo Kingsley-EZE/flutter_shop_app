@@ -203,7 +203,7 @@ class UserProductItem extends StatelessWidget {
                     ),
                     image: DecorationImage(
                       image: NetworkImage(productImageUrl!),
-                      fit: BoxFit.contain
+                      fit: BoxFit.cover
                     )
                   ),
                 ),
