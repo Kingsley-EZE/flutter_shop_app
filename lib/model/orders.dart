@@ -11,8 +11,9 @@ class Orders{
     required this.imageUrl,
     required this.totalAmount,
     required this.shippingCharge,
-    required this.orderId,
     required this.orderStatus,
+    required this.orderDate,
+    required this.productOwnerId,
   });
 
   final String userId;
@@ -22,8 +23,9 @@ class Orders{
   final String imageUrl;
   final String totalAmount;
   final String shippingCharge;
-  final String orderId;
   final String orderStatus;
+  final String orderDate;
+  final String productOwnerId;
 
   Map<String, dynamic> toMap(){
     return {
@@ -34,8 +36,9 @@ class Orders{
       'imageUrl' : imageUrl,
       'totalAmount' : totalAmount,
       'shippingCharge' : shippingCharge,
-      'orderId' : orderId,
       'orderStatus' : orderStatus,
+      'orderDate' : orderDate,
+      'productOwnerId' : productOwnerId,
     };
   }
 
