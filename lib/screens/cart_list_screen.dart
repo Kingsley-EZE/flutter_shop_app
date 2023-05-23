@@ -183,7 +183,7 @@ class _CartListStreamState extends State<CartListStream> {
                           ),
                         ),
                         Text(
-                          '\$$deliveryFee',
+                          'NGN$deliveryFee',
                           style: GoogleFonts.lato(
                               fontSize: 18.0,
                               color: Colors.black54,
@@ -207,7 +207,7 @@ class _CartListStreamState extends State<CartListStream> {
                           ),
                         ),
                         Text(
-                          '$totalAmt',
+                          'NGN$totalAmt',
                           style: GoogleFonts.lato(
                               fontSize: 20.0,
                               color: Colors.black87,
