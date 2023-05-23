@@ -228,7 +228,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                           onChanged: (value){
 
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Full name',
                               hintStyle: TextStyle(color: kHintTextColor),
                               floatingLabelBehavior: FloatingLabelBehavior.auto,
@@ -249,7 +249,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                           onChanged: (value){
 
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               labelText: 'Email',
                               hintStyle: TextStyle(color: kHintTextColor),
                               floatingLabelBehavior: FloatingLabelBehavior.auto,
@@ -268,7 +268,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                           onChanged: (value){
                             phoneNumber = value;
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               labelText: 'Phone number',
                               hintStyle: TextStyle(color: kHintTextColor),
                               floatingLabelBehavior: FloatingLabelBehavior.auto,

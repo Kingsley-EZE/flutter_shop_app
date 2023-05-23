@@ -284,7 +284,7 @@ class _OrderDetailsStreamState extends State<OrderDetailsStream> {
                         ),
                       ),
                       Text(
-                        '\$$shippingCharge',
+                        'NGN$shippingCharge',
                         style: GoogleFonts.lato(
                             fontSize: 18.0,
                             color: Colors.black54,
@@ -308,7 +308,7 @@ class _OrderDetailsStreamState extends State<OrderDetailsStream> {
                         ),
                       ),
                       Text(
-                        '\$$totalAmount',
+                        'NGN$totalAmount',
                         style: GoogleFonts.lato(
                             fontSize: 20.0,
                             color: Colors.black87,

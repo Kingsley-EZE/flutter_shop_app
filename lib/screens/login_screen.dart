@@ -24,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _fireStore = FirebaseFirestore.instance;
   String email = '';
   String password = '';
+  String fullName = '';
   int userProfileCompleted = 0;
   bool showSpinner = false;
 
@@ -55,6 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
           (DocumentSnapshot doc) {
         final data = doc.data() as Map<String, dynamic>;
         userProfileCompleted = data['profileCompleted'];
+        fullName = data['fullName'];
         if(user.user != null && userProfileCompleted == 0){
           Navigator.pushNamed(context, CompleteProfileScreen.id);
         }else if(user.user != null && userProfileCompleted == 1){
