@@ -28,6 +28,16 @@ class _LoginScreenState extends State<LoginScreen> {
   int userProfileCompleted = 0;
   bool showSpinner = false;
 
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   void showSnackBar(String message, Color backgroundColor){
     final snackBar = SnackBar(
       content: Text(message),
@@ -77,9 +87,9 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: kWhitishColor,
           body: ModalProgressHUD(
             inAsyncCall: showSpinner,
-            progressIndicator: CircularProgressIndicator(color: kPrimaryBrandColor,),
+            progressIndicator: const CircularProgressIndicator(color: kPrimaryBrandColor,),
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,12 +99,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.pop(context);
                       },
                       child: Container(
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: const BoxDecoration(
                             color: kBackButtonBgColor,
                             shape: BoxShape.circle
                         ),
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                           backgroundColor: Colors.transparent,
                           child: Icon(Icons.arrow_back, color: Colors.black,),
                         ),
@@ -116,7 +126,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
 
+
                     PrimaryInputField(
+                      controller: _emailController,
                       labelText: 'Email',
                       onChanged: (value){
                         email = value;
@@ -126,6 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
 
                     PrimaryInputField(
+                      controller: _passwordController,
                       labelText: 'Password',
                       onChanged: (value){
                         password = value;

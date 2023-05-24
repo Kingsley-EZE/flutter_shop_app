@@ -331,7 +331,7 @@ class _CartListStreamState extends State<CartListStream> {
                       ],
                     ),
 
-                    SizedBox(height: 10.0,),
+                    const SizedBox(height: 10.0,),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

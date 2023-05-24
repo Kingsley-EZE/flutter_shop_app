@@ -61,11 +61,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 16.0),
         child: _isLoading ?
-        /*Expanded(
-            child: ListView.separated(itemBuilder: (context, index) => NewSkeletonCard(),
-                separatorBuilder: (context, index) => SizedBox(height: 5,),
-                itemCount: 6)
-        )*/
         Column(
           children: [
             Expanded(

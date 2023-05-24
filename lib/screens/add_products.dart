@@ -39,6 +39,20 @@ class _AddProductsScreen extends State<AddProductsScreen> {
   String? imageUrl = '';
   bool showSpinner = false;
 
+  final TextEditingController _productNameController = TextEditingController();
+  final TextEditingController _productPriceController = TextEditingController();
+  final TextEditingController _productDescriptionController = TextEditingController();
+  final TextEditingController _productQuantityController = TextEditingController();
+
+  @override
+  void dispose() {
+    _productNameController.dispose();
+    _productPriceController.dispose();
+    _productDescriptionController.dispose();
+    _productQuantityController.dispose();
+    super.dispose();
+  }
+
   void showSnackBar(String message, Color backgroundColor){
     final snackBar = SnackBar(
       content: Text(message),
@@ -181,7 +195,7 @@ class _AddProductsScreen extends State<AddProductsScreen> {
                   ),
 
                   OutlinedInputField(
-                    controller: null,
+                    controller: _productNameController,
                     labelText: 'Product name',
                     onChanged: (String value) {
                       productName = value;
@@ -191,17 +205,17 @@ class _AddProductsScreen extends State<AddProductsScreen> {
                   ),
 
                   OutlinedInputField(
-                    controller: null,
+                    controller: _productPriceController,
                     labelText: 'Product price',
                     onChanged: (String value) {
-                      productPrice = 'NGN$value';
+                      productPrice = value;
                     },
                     keyboard: TextInputType.number,
                     maxLines: 1,
                   ),
 
                   OutlinedInputField(
-                    controller: null,
+                    controller: _productDescriptionController,
                     labelText: 'Product description',
                     onChanged: (String value) {
                       productDescription = value;
@@ -211,7 +225,7 @@ class _AddProductsScreen extends State<AddProductsScreen> {
                   ),
 
                   OutlinedInputField(
-                    controller: null,
+                    controller: _productQuantityController,
                     labelText: 'Product quantity',
                     onChanged: (String value) {
                       productQuantity = value;

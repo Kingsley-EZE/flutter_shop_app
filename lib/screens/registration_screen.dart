@@ -31,6 +31,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String confirmPassword = '';
   bool showSpinner = false;
 
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _fullNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
   void showSnackBar(String message, Color backgroundColor){
     final snackBar = SnackBar(
       content: Text(message),
@@ -90,6 +104,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
 
                     PrimaryInputField(
+                      controller: _fullNameController,
                       labelText: 'Full name',
                       onChanged: (value){
                         //Get fullName
@@ -100,6 +115,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
 
                     PrimaryInputField(
+                      controller: _emailController,
                       labelText: 'Email',
                       onChanged: (value){
                         //Get Email
@@ -110,6 +126,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
 
                     PrimaryInputField(
+                      controller: _passwordController,
                       labelText: 'Password',
                       onChanged: (value){
                         //Get password
@@ -120,6 +137,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
 
                     PrimaryInputField(
+                      controller: _confirmPasswordController,
                       labelText: 'Confirm Password',
                       onChanged: (value){
                         confirmPassword = value;
