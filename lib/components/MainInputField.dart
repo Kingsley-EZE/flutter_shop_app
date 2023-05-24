@@ -9,18 +9,21 @@ class PrimaryInputField extends StatelessWidget {
     required this.onChanged,
     required this.hidePassword,
     required this.keyboard,
+    required this.controller,
   });
 
   final String labelText;
   final ValueChanged<String> onChanged;
   final bool hidePassword;
   final TextInputType keyboard;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: TextField(
+        controller: controller,
         onChanged: onChanged,
         obscureText: hidePassword,
         decoration: InputDecoration(

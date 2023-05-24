@@ -39,6 +39,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
   final TextEditingController _textController1 = TextEditingController();
   final TextEditingController _textController2 = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
 
   void showSnackBar(String message, Color backgroundColor){
     final snackBar = SnackBar(
@@ -144,6 +145,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     // TODO: implement dispose
     _textController1.dispose();
     _textController2.dispose();
+    _phoneNumberController.dispose();
     super.dispose();
   }
 
@@ -265,6 +267,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: TextField(
+                          controller: _phoneNumberController,
                           onChanged: (value){
                             phoneNumber = value;
                           },

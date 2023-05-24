@@ -8,28 +8,29 @@ class OutlinedInputField extends StatelessWidget {
     required this.onChanged,
     required this.keyboard,
     required this.maxLines,
-    required this.controller
+    required this.controller,
   });
 
   final String labelText;
   final ValueChanged<String> onChanged;
   final TextInputType keyboard;
   final int maxLines;
-  final TextEditingController? controller;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
       child: TextField(
+        controller: controller,
         onChanged: onChanged,
         decoration: InputDecoration(
           labelText: labelText,
-          hintStyle: TextStyle(color: kHintTextColor),
+          hintStyle: const TextStyle(color: kHintTextColor),
           floatingLabelBehavior: FloatingLabelBehavior.auto,
           focusColor: kPrimaryBrandColor,
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
+          border: const OutlineInputBorder(),
+          focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: kPrimaryBrandColor),
           ),
         ),

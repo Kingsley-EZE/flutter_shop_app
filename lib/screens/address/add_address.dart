@@ -30,6 +30,22 @@ class _AddAddressState extends State<AddAddress> {
   String additionalNote = '';
   bool showSpinner = false;
 
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _additionalNoteController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _phoneNumberController.dispose();
+    _addressController.dispose();
+    _cityController.dispose();
+    _additionalNoteController.dispose();
+    super.dispose();
+  }
+
 
   bool validateUserInput(String name, String phoneNumber, String address, String city){
     if(name == ''){
@@ -74,9 +90,9 @@ class _AddAddressState extends State<AddAddress> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 10.0,),
+              const SizedBox(height: 10.0,),
               OutlinedInputField(
-                  controller: null,
+                  controller: _nameController,
                   labelText: 'Name',
                   onChanged: (String value){
                     name = value;
@@ -86,7 +102,7 @@ class _AddAddressState extends State<AddAddress> {
               ),
 
               OutlinedInputField(
-                controller: null,
+                controller: _phoneNumberController,
                 labelText: 'Phone number',
                 onChanged: (String value){
                     phoneNumber = value;
@@ -96,7 +112,7 @@ class _AddAddressState extends State<AddAddress> {
               ),
 
               OutlinedInputField(
-                controller: null,
+                controller: _addressController,
                 labelText: 'Address',
                 onChanged: (String value){
                     address = value;
@@ -106,7 +122,7 @@ class _AddAddressState extends State<AddAddress> {
               ),
 
               OutlinedInputField(
-                controller: null,
+                controller: _cityController,
                 labelText: 'City',
                 onChanged: (String value){
                     city = value;
@@ -116,7 +132,7 @@ class _AddAddressState extends State<AddAddress> {
               ),
 
               OutlinedInputField(
-                controller: null,
+                controller: _additionalNoteController,
                 labelText: 'Additional note',
                 onChanged: (String value){
                     additionalNote = value;
