@@ -1,14 +1,17 @@
-# shop_app
+# E-Commerce App(Shoppa)
 
-An Ecommerce Buying and Selling App.
+A full-fledged e-commerce application built using Flutter and Firebase, allowing users to buy products, place orders, and even sell their own products. Firebase is used for authentication, cloud storage, and Firestore database. You will need to configure this App to your Firebase and add your google.json file under your android app folder :)
 
-## Getting Started
+## Features
 
-This project is something i decided to build to help solidify my understanding of flutter and how to integrate Firebase into an App. Join me as i build this App 🤗👨‍💻💪
+- User authentication using Firebase Authentication.
+- Browse and search for products.
+- Add products to the cart and place orders.
+- Sellers can upload their products for sale.
+- Real-time updates for product availability and orders.
 
-You will need to configure this App to your Firebase and add your google.json file under your android app folder :)
+## Screenshots
 
-##Screenshots
 ![Screenshot_20230614-091601](https://github.com/Kingsley-EZE/flutter_shop_app/assets/68538735/c4f69156-1598-4f3c-87fd-e6ef797703f4)
 ![Screenshot_20230614-091609](https://github.com/Kingsley-EZE/flutter_shop_app/assets/68538735/6bb2011d-7198-45fa-9c80-3ca29cd547f4)
 ![Screenshot_20230614-091619](https://github.com/Kingsley-EZE/flutter_shop_app/assets/68538735/1342fbd4-5385-4232-a316-021cabfce2a0)
